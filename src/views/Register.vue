@@ -2,11 +2,12 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:29:08
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-06-30 16:24:11
+ * @LastEditTime: 2024-06-30 17:14:34
  * @FilePath: Register.vue
  * @Description: For learning only
 -->
 <script setup>
+import { userRegisterService } from '@/apis/user'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -37,13 +38,12 @@ const updateFile = ({ file }) => {
 
 const router = useRouter()
 const onSubmit = async () => {
-  // TODO:后面跟上接口，注册成功后跳转到登录页
-  console.log(ruleForm.value)
   const params = new FormData()
   for (const i in ruleForm.value) {
     params.append(i, ruleForm.value[i])
   }
-  // router.replace('/login')
+  await userRegisterService(params)
+  router.replace('/login')
 }
 </script>
 <template>

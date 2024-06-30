@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:28:25
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-06-29 21:04:14
+ * @LastEditTime: 2024-06-30 17:13:18
  * @FilePath: Login.vue
  * @Description: For learning only
 -->
@@ -10,6 +10,7 @@
 import { ref } from 'vue'
 import { useUserStore } from '@/stores/userStore'
 import router from '@/router'
+import { userLoginService } from '@/apis/user'
 
 defineOptions({
   name: 'LoginPage'
@@ -23,14 +24,23 @@ const rules = ref({
 })
 
 const onSubmit = async () => {
-  // TODO:后面跟上接口，存userStore
-  console.log('submit')
+  const res = await userLoginService({
+    username: username.value,
+    password: password.value
+  })
+  // TODO:测试登录
+  console.log(res.data)
+  userStore.setUserInfo(res.data)
   router.replace('/about')
 }
 </script>
 <template>
   <div class="container">
-    <van-nav-bar title="Login" @click-left="$router.back()" @click-right="$router.push('/home')">
+    <van-nav-bar
+      title="Login"
+      @click-left="$router.back()"
+      @click-right="$router.push('/home')"
+    >
       <template #left>
         <van-icon name="arrow-left" size="30" color="#000" />
       </template>
@@ -60,7 +70,9 @@ const onSubmit = async () => {
           />
         </van-cell-group>
         <div style="margin: 16px">
-          <van-button round block type="primary" native-type="submit"> 登录 </van-button>
+          <van-button round block type="primary" native-type="submit">
+            登录
+          </van-button>
         </div>
       </van-form>
     </div>
