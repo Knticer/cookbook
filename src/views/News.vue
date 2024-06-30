@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:25:26
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-06-30 20:55:34
+ * @LastEditTime: 2024-06-30 21:08:31
  * @FilePath: News.vue
  * @Description: For learning only
 -->
@@ -18,6 +18,29 @@ const router = useRouter()
 
 // 添加话题相关逻辑
 const showAction = ref(false)
+const ruleForm = ref({
+  title: '',
+  author: '',
+  content: '',
+  img: [],
+  file: null
+})
+const rules = ref({
+  title: [{ required: true, message: '请输入话题标题', trigger: 'onBlur' }],
+  author: [{ required: true, message: '请输入作者', trigger: 'onBlur' }],
+  content: [{ required: true, message: '请输入话题内容', trigger: 'onBlur' }]
+})
+const updateFile = ({ file }) => {
+  ruleForm.value.img = [{ url: URL.createObjectURL(file), isImage: true }]
+  ruleForm.value.file = file
+}
+const onSubmit = () => {
+  const params = new FormData()
+  for (const i in ruleForm.value) {
+    params.append(i, ruleForm.value[i])
+  }
+  // TODO: 提交话题
+}
 
 // 搜索逻辑
 const search = ref('')
@@ -84,8 +107,53 @@ const goNewsDetail = (id) => {
       placeholder="请输入相关话题关键字"
       @search="onSearch"
     />
-    <!-- TODO:动作面板 -->
-    <van-action-sheet v-model:show="showAction" title="添加话题">
+    <van-action-sheet
+      v-model:show="showAction"
+      title="添加话题"
+      style="padding: 5px"
+    >
+      <van-form @submit="onSubmit">
+        <van-field
+          v-model="ruleForm.title"
+          name="话题标题"
+          label="话题标题"
+          placeholder="请输入话题标题"
+          :rules="rules.title"
+          required
+        />
+        <van-field
+          v-model="ruleForm.author"
+          name="作者"
+          label="作者"
+          placeholder="请输入作者"
+          :rules="rules.author"
+          required
+        />
+        <van-field
+          v-model="ruleForm.content"
+          rows="2"
+          autosize
+          label="话题内容"
+          type="textarea"
+          :rules="rules.content"
+          placeholder="请输入话题内容"
+          required
+        />
+        <van-field name="uploader" label="话题图片">
+          <template #input>
+            <van-uploader
+              v-model="ruleForm.img"
+              :after-read="updateFile"
+              accept="image/*"
+              multiple
+              max-count="1"
+            />
+          </template>
+        </van-field>
+        <van-button round block type="primary" native-type="submit">
+          提交
+        </van-button>
+      </van-form>
     </van-action-sheet>
     <img src="@/assets/news_header.png" style="width: 100%" />
     <div class="newsList">
