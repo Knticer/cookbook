@@ -28,8 +28,6 @@ const onSubmit = async () => {
     username: username.value,
     password: password.value
   })
-  // TODO:测试登录
-  console.log(res.data)
   userStore.setUserInfo(res.data)
   router.replace('/about')
 }
