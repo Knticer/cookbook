@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:35:24
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-06-30 17:28:36
+ * @LastEditTime: 2024-06-30 17:35:05
  * @FilePath: request.js
  * @Description: For learning only
  */
@@ -38,21 +38,20 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   (response) => {
-    console.log(response)
-    const token = response.data.token
+    const token = response.token
     token && localStorage.setItem('token', token)
-    if (response.data.code === 200) {
+    if (response.code === 200) {
       showSuccessToast({
-        message: response.data.msg
+        message: response.msg
       })
     }
     closeToast()
 
-    return response.data
+    return response
   },
   (error) => {
     showFailToast({
-      message: error.response.data.msg
+      message: error.response.msg
     })
     // 用户权限不足或者token过期，跳转登录页
     if (error.response?.status === 401) {
