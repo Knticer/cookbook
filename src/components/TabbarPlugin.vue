@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:45:04
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-06-27 11:39:54
+ * @LastEditTime: 2024-06-30 17:18:07
  * @FilePath: TabbarPlugin.vue
  * @Description: For learning only
 -->
@@ -25,7 +25,8 @@
     "
   >
     <van-tabbar-item replace to="/home" icon="wap-home"></van-tabbar-item>
-    <van-tabbar-item replace to="/category" icon="list-switch"> </van-tabbar-item>
+    <van-tabbar-item replace to="/category" icon="list-switch">
+    </van-tabbar-item>
     <van-tabbar-item replace to="/news" icon="newspaper"></van-tabbar-item>
     <van-tabbar-item replace to="/about" icon="contact"></van-tabbar-item>
   </van-tabbar>

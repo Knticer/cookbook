@@ -2,17 +2,21 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:35:24
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-06-29 17:57:22
+ * @LastEditTime: 2024-06-30 17:17:00
  * @FilePath: request.js
  * @Description: For learning only
  */
 import router from '@/router'
 import axios from 'axios'
-import { showLoadingToast, showSuccessToast, showFailToast, closeToast } from 'vant'
+import {
+  showLoadingToast,
+  showSuccessToast,
+  showFailToast,
+  closeToast
+} from 'vant'
 
 const instance = axios.create({
-  // TODO:和后端约定的接口地址
-  baseURL: `${import.meta.env.VITE_SERVER_URL}/web`,
+  baseURL: import.meta.env.VITE_SERVER_URL,
   timeout: 5000
 })
 
