@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:35:24
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-06-30 17:35:05
+ * @LastEditTime: 2024-06-30 17:37:47
  * @FilePath: request.js
  * @Description: For learning only
  */
@@ -39,6 +39,8 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   (response) => {
     const token = response.token
+    console.log(response)
+    console.log(token)
     token && localStorage.setItem('token', token)
     if (response.code === 200) {
       showSuccessToast({
@@ -47,7 +49,7 @@ instance.interceptors.response.use(
     }
     closeToast()
 
-    return response
+    return response.data
   },
   (error) => {
     showFailToast({
