@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:35:24
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-06-30 17:17:00
+ * @LastEditTime: 2024-06-30 17:28:36
  * @FilePath: request.js
  * @Description: For learning only
  */
@@ -38,6 +38,7 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   (response) => {
+    console.log(response)
     const token = response.data.token
     token && localStorage.setItem('token', token)
     if (response.data.code === 200) {
