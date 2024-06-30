@@ -1,0 +1,19 @@
+/* body {
+  background: linear-gradient(45deg, #daffe5, #cfe9fa, #daffe5, #cfe9fa);
+  backdrop-filter: blur(10px);
+  background-size: 400% 400%;
+  animation: BGCAnimation 15s infinite;
+}
+
+@keyframes BGCAnimation {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: 0 100%;
+  }
+} */
+
+body {
+  background-color: #f7f8fa;
+}

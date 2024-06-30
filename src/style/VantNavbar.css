@@ -1,0 +1,18 @@
+:root .van-nav-bar__title {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  font-size: 2em;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
+}
+:root .van-nav-bar__content {
+  height: 100px;
+  background-color: #fff;
+}
+:root .van-hairline--bottom {
+  background-color: transparent;
+  &::after {
+    border-bottom: none;
+  }
+}
