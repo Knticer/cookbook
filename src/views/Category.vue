@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:24:24
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-06-30 15:49:20
+ * @LastEditTime: 2024-06-30 20:50:01
  * @FilePath: Category.vue
  * @Description: For learning only
 -->
@@ -130,7 +130,7 @@ const goDetail = (id) => {
     />
     <div class="content">
       <div class="aside">
-        <van-sidebar v-model="active">
+        <van-sidebar v-model="active" style="padding-bottom: 75px">
           <van-sidebar-item
             v-for="(item, index) in categoryMap[route.query.category || 1]"
             :key="index"
@@ -150,7 +150,12 @@ const goDetail = (id) => {
         </van-button>
 
         <div class="list">
-          <van-grid :column-num="3">
+          <van-grid
+            :column-num="3"
+            style="padding-bottom: 75px"
+            square
+            clickable
+          >
             <van-grid-item
               v-for="item in recipes"
               :key="item.id"
@@ -158,7 +163,7 @@ const goDetail = (id) => {
             >
               <van-image
                 width="100%"
-                height="100%"
+                height="15vw"
                 fit="cover"
                 :src="item.img"
               ></van-image>
@@ -177,9 +182,14 @@ const goDetail = (id) => {
   .content {
     height: calc(100vh - 155px);
     display: flex;
+    .aside {
+      width: 30%;
+      height: 100%;
+      overflow-y: auto;
+    }
     .rightSide {
       width: 100%;
-      padding: 10px;
+      padding: 5px;
       .list {
         margin-top: 10px;
       }

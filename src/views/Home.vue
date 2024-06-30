@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:23:30
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-06-29 21:42:45
+ * @LastEditTime: 2024-06-30 20:45:25
  * @FilePath: Home.vue
  * @Description: For learning only
 -->
@@ -170,7 +170,7 @@ const goDetail = (id) => {
     </van-swipe>
 
     <p class="title">菜系推荐</p>
-    <van-grid :gutter="10">
+    <van-grid :gutter="10" clickable>
       <van-grid-item
         v-for="item in cuisine"
         :key="item"
@@ -180,7 +180,7 @@ const goDetail = (id) => {
     </van-grid>
 
     <p class="title">热门排行榜</p>
-    <van-grid :border="false" :column-num="2">
+    <van-grid square clickable :column-num="2" style="padding-bottom: 75px">
       <van-grid-item
         v-for="item in hotList"
         :key="item.id"
@@ -188,7 +188,7 @@ const goDetail = (id) => {
       >
         <van-image
           width="100%"
-          height="100%"
+          height="25vw"
           fit="cover"
           :src="item.img"
         ></van-image>
@@ -203,7 +203,6 @@ const goDetail = (id) => {
 <style lang="scss" scoped>
 .container {
   height: 100vh;
-
   .header {
     height: 100px;
     display: flex;
