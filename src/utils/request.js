@@ -40,18 +40,18 @@ instance.interceptors.response.use(
   (response) => {
     const token = response.data.data.token
     token && localStorage.setItem('token', token)
-    if (response.data.data.code === 200) {
+    if (response.data.code === 200) {
       showSuccessToast({
-        message: response.data.data.msg
+        message: response.data.msg
       })
     }
     closeToast()
 
-    return response.data.data
+    return response.data
   },
   (error) => {
     showFailToast({
-      message: error.response.data.data.msg
+      message: error.response.data.msg
     })
     // 用户权限不足或者token过期，跳转登录页
     if (error.response?.status === 401) {
@@ -60,7 +60,7 @@ instance.interceptors.response.use(
       router.replace('/login')
     }
 
-    return Promise.reject(error.response.data.data)
+    return Promise.reject(error.response.data)
   }
 )
 
