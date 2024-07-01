@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:23:30
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-01 22:03:38
+ * @LastEditTime: 2024-07-01 22:20:42
  * @FilePath: Home.vue
  * @Description: For learning only
 -->
@@ -122,7 +122,7 @@ const goDetail = (id) => {
         v-for="item in cuisine"
         :key="item.cuisineId"
         :text="item.name"
-        @click="goCategory(item.name)"
+        @click="goCategory(item.cuisineId)"
       />
     </van-grid>
 
