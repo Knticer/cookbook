@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:26:06
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-01 17:04:15
+ * @LastEditTime: 2024-07-01 17:15:17
  * @FilePath: About.vue
  * @Description: For learning only
 -->
@@ -193,8 +193,7 @@ const goNewsDetail = (id) => {
         </div>
       </div>
     </div>
-    <van-empty v-if="!userInfo.token" description="暂无数据" />
-    <div class="content" v-else>
+    <div class="content" v-if="userInfo.token">
       <van-tabs v-model:active="active" sticky>
         <van-tab title="我的收藏">
           <van-grid
@@ -243,6 +242,17 @@ const goNewsDetail = (id) => {
         <van-back-top bottom="20vw" />
       </van-tabs>
     </div>
+    <van-empty v-else description="暂无数据">
+      <van-button
+        style="width: 150px; margin-top: 10px"
+        type="primary"
+        icon="manager-o"
+        round
+        @click="() => router.push('/login')"
+      >
+        登陆
+      </van-button>
+    </van-empty>
   </div>
 </template>
 
