@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:32:17
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-01 10:42:45
+ * @LastEditTime: 2024-07-01 16:35:46
  * @FilePath: CookDetail.vue
  * @Description: For learning only
 -->
@@ -134,7 +134,6 @@ const clearForm = () => {
       <van-cell-group inset>
         <van-cell :value="cookObj.content" />
       </van-cell-group>
-
       <div class="comment">
         <van-cell-group>
           <van-cell title="评论区" style="color: #1c8eff">
@@ -148,7 +147,6 @@ const clearForm = () => {
             </template>
           </van-cell>
         </van-cell-group>
-
         <van-action-sheet
           v-model:show="showAction"
           title="添加评论"
@@ -180,7 +178,6 @@ const clearForm = () => {
           </van-form>
           <van-empty v-else description="请先登录" />
         </van-action-sheet>
-
         <van-cell-group>
           <van-cell
             v-for="item in commentList"
@@ -191,6 +188,7 @@ const clearForm = () => {
           />
         </van-cell-group>
       </div>
+      <van-back-top bottom="20vw" />
     </div>
   </div>
 </template>

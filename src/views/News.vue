@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:25:26
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-01 11:27:47
+ * @LastEditTime: 2024-07-01 16:23:46
  * @FilePath: News.vue
  * @Description: For learning only
 -->
@@ -202,6 +202,7 @@ const goNewsDetail = (id) => {
           <van-image width="25vw" height="25vw" fit="cover" :src="item.img" />
         </template>
       </van-cell>
+      <van-back-top bottom="20vw" />
     </div>
   </div>
 </template>

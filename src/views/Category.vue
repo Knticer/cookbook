@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:24:24
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-01 11:40:10
+ * @LastEditTime: 2024-07-01 16:22:35
  * @FilePath: Category.vue
  * @Description: For learning only
 -->
@@ -149,7 +149,6 @@ const goDetail = (id) => {
             {{ route.query.category === '0' ? '食材分类' : '菜系分类' }}
           </b>
         </van-button>
-
         <div class="list">
           <van-grid
             :column-num="3"
@@ -171,6 +170,7 @@ const goDetail = (id) => {
               <div>{{ item.name }}</div>
             </van-grid-item>
           </van-grid>
+          <van-back-top bottom="20vw" />
         </div>
       </div>
     </div>

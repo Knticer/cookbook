@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:32:50
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-01 10:33:56
+ * @LastEditTime: 2024-07-01 16:35:23
  * @FilePath: NewsDetail.vue
  * @Description: For learning only
 -->
@@ -109,14 +109,12 @@ const clearForm = () => {
         作者：{{ curDetail.author }}
       </van-divider>
     </div>
-
     <van-cell-group>
       <van-cell title="话题详情" style="color: #1c8eff" />
     </van-cell-group>
     <div class="content">
       {{ curDetail.content }}
     </div>
-
     <van-cell-group>
       <van-cell title="评论区" style="color: #1c8eff">
         <template #right-icon>
@@ -129,7 +127,6 @@ const clearForm = () => {
         </template>
       </van-cell>
     </van-cell-group>
-
     <van-action-sheet
       v-model:show="showAction"
       title="添加评论"
@@ -161,7 +158,6 @@ const clearForm = () => {
       </van-form>
       <van-empty v-else description="请先登录" />
     </van-action-sheet>
-
     <div class="comment">
       <van-cell-group>
         <van-cell
@@ -176,6 +172,7 @@ const clearForm = () => {
           </template>
         </van-cell>
       </van-cell-group>
+      <van-back-top bottom="20vw" />
     </div>
   </div>
 </template>
@@ -183,6 +180,7 @@ const clearForm = () => {
 <style lang="scss" scoped>
 .container {
   height: 100vh;
+  padding-bottom: 0 !important;
   overflow: auto;
   .title {
     padding: 20px;

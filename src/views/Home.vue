@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:23:30
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-06-30 20:45:25
+ * @LastEditTime: 2024-07-01 16:17:37
  * @FilePath: Home.vue
  * @Description: For learning only
 -->
@@ -197,6 +197,7 @@ const goDetail = (id) => {
         <div>点赞量: {{ item.like }}</div>
       </van-grid-item>
     </van-grid>
+    <van-back-top bottom="20vw" />
   </div>
 </template>
 
@@ -230,7 +231,6 @@ const goDetail = (id) => {
       }
     }
   }
-
   .van-swipe {
     height: 200px;
     .van-swipe-item {
@@ -242,7 +242,6 @@ const goDetail = (id) => {
       background-color: #39a9ed;
     }
   }
-
   .title {
     font-size: 20px;
     font-weight: bold;
