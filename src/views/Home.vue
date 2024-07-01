@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:23:30
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-01 23:12:27
+ * @LastEditTime: 2024-07-01 23:16:13
  * @FilePath: Home.vue
  * @Description: For learning only
 -->
@@ -63,7 +63,7 @@ onMounted(() => {
 
 /**
  * @description: 去菜谱分类页
- * @param {*} cuisine 菜系
+ * @param {*} cuisine 菜系id
  * @return {*}
  * @example: 例子
  */
@@ -104,7 +104,6 @@ const goDetail = (id) => {
         <template #error><van-icon name="user-o" size="30" /></template>
       </van-image>
     </div>
-
     <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
       <van-swipe-item v-for="item in popCook" :key="item.id">
         <van-image
@@ -115,7 +114,6 @@ const goDetail = (id) => {
         ></van-image>
       </van-swipe-item>
     </van-swipe>
-
     <p class="title">菜系推荐</p>
     <van-grid :gutter="10" clickable>
       <van-grid-item
@@ -125,7 +123,6 @@ const goDetail = (id) => {
         @click="goCategory(item.cuisineId)"
       />
     </van-grid>
-
     <p class="title">热门菜谱排行榜</p>
     <van-grid square clickable :column-num="2" style="padding-bottom: 75px">
       <van-grid-item
