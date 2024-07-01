@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:26:06
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-01 17:15:17
+ * @LastEditTime: 2024-07-01 21:10:50
  * @FilePath: About.vue
  * @Description: For learning only
 -->
@@ -30,14 +30,6 @@ const genderMap = new Map([
   [1, '男'],
   [2, '女']
 ])
-
-const usersInfo = {
-  username: 'chenxin',
-  gender: 1,
-  introduction: '这是一个有趣的人',
-  // TODO:这里先写死
-  taste: '酸,甜,苦,辣,咸'
-}
 
 // 标签栏相关
 // TODO:模拟数据
@@ -176,14 +168,14 @@ const goNewsDetail = (id) => {
         <div class="myself" v-else>
           <!-- <div class="myself"> -->
           <!-- TODO:后面直接用store里的数据 -->
-          <p>欢迎您：@{{ usersInfo.username }}</p>
-          <p>性别：{{ genderMap.get(usersInfo.gender) }}</p>
-          <p>简介：{{ usersInfo.introduction }}</p>
+          <p>欢迎您：@{{ userInfo.username }}</p>
+          <p>性别：{{ genderMap.get(userInfo.gender) }}</p>
+          <p>简介：{{ userInfo.introduction }}</p>
           <p>我的口味标签：</p>
           <div class="taste">
             <van-tag
               size="large"
-              v-for="item in usersInfo.taste.split(',')"
+              v-for="item in userInfo.taste.split(',')"
               :key="item"
               type="primary"
             >

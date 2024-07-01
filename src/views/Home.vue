@@ -2,14 +2,15 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:23:30
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-01 16:17:37
+ * @LastEditTime: 2024-07-01 22:03:38
  * @FilePath: Home.vue
  * @Description: For learning only
 -->
 <script setup>
+import { homeCuisineService, homeGetHotService } from '@/apis/home'
 import { useAvatar } from '@/hooks/useAvatar'
 import { useUserStore } from '@/stores/userStore'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 defineOptions({
@@ -43,76 +44,22 @@ const popCook = ref([
     img: 'https://img.yzcdn.cn/vant/apple-4.jpg'
   }
 ])
-// TODO:从后端获取菜系推荐
-const cuisine = ref([
-  '川菜',
-  '粤菜',
-  '湘菜',
-  '鲁菜',
-  '徽菜',
-  '浙菜',
-  '苏菜',
-  '闽菜'
-])
-// TODO:从后端获取热门排行榜
-const hotList = ref([
-  {
-    id: 1,
-    name: '麻婆豆腐',
-    img: 'https://img.yzcdn.cn/vant/apple-1.jpg',
-    view: 1000,
-    like: 100
-  },
-  {
-    id: 2,
-    name: '红烧肉',
-    img: 'https://img.yzcdn.cn/vant/apple-2.jpg',
-    view: 1000,
-    like: 100
-  },
-  {
-    id: 3,
-    name: '鱼香肉丝',
-    img: 'https://img.yzcdn.cn/vant/apple-3.jpg',
-    view: 1000,
-    like: 100
-  },
-  {
-    id: 4,
-    name: '宫保鸡丁',
-    img: 'https://img.yzcdn.cn/vant/apple-4.jpg',
-    view: 1000,
-    like: 100
-  },
-  {
-    id: 5,
-    name: '酸菜鱼',
-    img: 'https://img.yzcdn.cn/vant/apple-5.jpg',
-    view: 1000,
-    like: 100
-  },
-  {
-    id: 6,
-    name: '红烧鱼',
-    img: 'https://img.yzcdn.cn/vant/apple-6.jpg',
-    view: 1000,
-    like: 100
-  },
-  {
-    id: 7,
-    name: '红烧排骨',
-    img: 'https://img.yzcdn.cn/vant/apple-7.jpg',
-    view: 1000,
-    like: 100
-  },
-  {
-    id: 8,
-    name: '红烧鸡块',
-    img: 'https://img.yzcdn.cn/vant/apple-8.jpg',
-    view: 1000,
-    like: 100
-  }
-])
+
+const cuisine = ref([])
+const getCuisine = async () => {
+  const res = await homeCuisineService()
+  cuisine.value = res.data
+}
+const hotList = ref([])
+const getHot = async () => {
+  const res = await homeGetHotService()
+  hotList.value = res.data
+}
+
+onMounted(() => {
+  getHot()
+  getCuisine()
+})
 
 /**
  * @description: 去菜谱分类页
@@ -173,28 +120,28 @@ const goDetail = (id) => {
     <van-grid :gutter="10" clickable>
       <van-grid-item
         v-for="item in cuisine"
-        :key="item"
-        :text="item"
-        @click="goCategory(item)"
+        :key="item.cuisineId"
+        :text="item.name"
+        @click="goCategory(item.name)"
       />
     </van-grid>
 
-    <p class="title">热门排行榜</p>
+    <p class="title">热门菜谱排行榜</p>
     <van-grid square clickable :column-num="2" style="padding-bottom: 75px">
       <van-grid-item
         v-for="item in hotList"
-        :key="item.id"
-        @click="goDetail(item.id)"
+        :key="item.recipeId"
+        @click="goDetail(item.recipeId)"
       >
         <van-image
           width="100%"
           height="25vw"
           fit="cover"
-          :src="item.img"
+          :src="`http://localhost:9090${item.img}`"
         ></van-image>
         <div>{{ item.name }}</div>
-        <div>浏览量: {{ item.view }}</div>
-        <div>点赞量: {{ item.like }}</div>
+        <div>浏览量: {{ item.views }}</div>
+        <div>收藏量: {{ item.collects }}</div>
       </van-grid-item>
     </van-grid>
     <van-back-top bottom="20vw" />

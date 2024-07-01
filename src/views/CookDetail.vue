@@ -2,30 +2,23 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:32:17
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-01 16:35:46
+ * @LastEditTime: 2024-07-01 21:56:16
  * @FilePath: CookDetail.vue
  * @Description: For learning only
 -->
 <script setup>
+import { cookGetService } from '@/apis/cookDetail'
 import { useUserStore } from '@/stores/userStore'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 
-// TODO: 根据路由参数获取食谱详情
-const cookObj = ref({
-  title: '番茄炒蛋',
-  img: 'https://img.yzcdn.cn/vant/apple-1.jpg',
-  view: 100,
-  like: 50,
-  ingredients: [
-    { name: '番茄', quantity: '2个' },
-    { name: '鸡蛋', quantity: '3个' },
-    { name: '盐', quantity: '适量' },
-    { name: '油', quantity: '适量' },
-    { name: '葱花', quantity: '适量' }
-  ],
-  content:
-    '1. 准备食材：番茄、鸡蛋、盐、油、葱花。2. 番茄切块，鸡蛋打散备用。3. 热锅凉油，倒入鸡蛋炒散。4. 加番茄块翻炒。5. 加盐调味，撒葱花即可。'
-})
+const route = useRoute()
+
+const cookObj = ref({})
+const getDetail = async () => {
+  const res = await cookGetService(route.params.id)
+  cookObj.value = res.data
+}
 
 /**
  * @description: 点击收藏
@@ -37,7 +30,7 @@ const goCollect = () => {
   console.log('点击收藏')
 }
 
-// 菜谱评论
+// TODO:菜谱评论
 const commentList = ref([
   {
     id: 1,
@@ -52,6 +45,10 @@ const commentList = ref([
     content: '我也觉得！'
   }
 ])
+
+onMounted(() => {
+  getDetail()
+})
 
 // 动作面板逻辑
 const userStore = useUserStore()
@@ -106,16 +103,15 @@ const clearForm = () => {
     </van-nav-bar>
     <div class="content">
       <van-image
-        v-if="cookObj.img"
         width="100%"
         height="200"
-        :src="cookObj.img"
+        :src="`http://localhost:9090${cookObj.img}`"
       />
       <div class="detail">
-        <h1>{{ cookObj.title }}</h1>
+        <h1>{{ cookObj.name }}</h1>
         <div class="msg">
-          <span>浏览量：{{ cookObj.view }} / </span>
-          <span>收藏：{{ cookObj.like }}</span>
+          <span>浏览量：{{ cookObj.views }} / </span>
+          <span>收藏：{{ cookObj.collects }}</span>
         </div>
         <van-button round style="margin-top: 10px" @click="goCollect">
           点击收藏
@@ -124,15 +120,15 @@ const clearForm = () => {
       <p class="title">食材准备</p>
       <van-cell-group inset>
         <van-cell
-          v-for="item in cookObj.ingredients"
+          v-for="item in cookObj.ingredientsVo"
           :key="item.name"
           :title="item.name"
-          :value="item.quantity"
+          :value="item.weight"
         />
       </van-cell-group>
       <p class="title">制作步骤</p>
       <van-cell-group inset>
-        <van-cell :value="cookObj.content" />
+        <van-cell :value="cookObj.description" />
       </van-cell-group>
       <div class="comment">
         <van-cell-group>
