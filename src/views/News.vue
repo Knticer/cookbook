@@ -2,11 +2,12 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:25:26
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-06-30 21:08:31
+ * @LastEditTime: 2024-07-01 10:32:58
  * @FilePath: News.vue
  * @Description: For learning only
 -->
 <script setup>
+import { useUserStore } from '@/stores/userStore'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -17,7 +18,11 @@ defineOptions({
 const router = useRouter()
 
 // 添加话题相关逻辑
+const userStore = useUserStore()
+const token = userStore.userInfo.token
+
 const showAction = ref(false)
+const formRef = ref(null)
 const ruleForm = ref({
   title: '',
   author: '',
@@ -34,12 +39,34 @@ const updateFile = ({ file }) => {
   ruleForm.value.img = [{ url: URL.createObjectURL(file), isImage: true }]
   ruleForm.value.file = file
 }
+/**
+ * @description: 提交话题
+ * @return {*}
+ * @example: 例子
+ */
 const onSubmit = () => {
   const params = new FormData()
   for (const i in ruleForm.value) {
     params.append(i, ruleForm.value[i])
   }
+  console.log(ruleForm.value)
   // TODO: 提交话题
+}
+/**
+ * @description: 重置表单
+ * @return {*}
+ * @example: 例子
+ */
+const clearForm = () => {
+  if (!token) return
+
+  ruleForm.value.title = ''
+  ruleForm.value.author = ''
+  ruleForm.value.content = ''
+  ruleForm.value.img = []
+  ruleForm.value.file = null
+  formRef.value.resetValidation()
+  showAction.value = false
 }
 
 // 搜索逻辑
@@ -111,8 +138,9 @@ const goNewsDetail = (id) => {
       v-model:show="showAction"
       title="添加话题"
       style="padding: 5px"
+      @close="clearForm"
     >
-      <van-form @submit="onSubmit">
+      <van-form @submit="onSubmit" ref="formRef" v-if="token">
         <van-field
           v-model="ruleForm.title"
           name="话题标题"
@@ -151,9 +179,11 @@ const goNewsDetail = (id) => {
           </template>
         </van-field>
         <van-button round block type="primary" native-type="submit">
-          提交
+          添加话题
         </van-button>
       </van-form>
+      <!-- 空状态 -->
+      <van-empty v-else description="请先登录" />
     </van-action-sheet>
     <img src="@/assets/news_header.png" style="width: 100%" />
     <div class="newsList">
