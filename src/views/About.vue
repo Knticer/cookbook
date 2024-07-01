@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:26:06
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-01 16:59:56
+ * @LastEditTime: 2024-07-01 17:04:15
  * @FilePath: About.vue
  * @Description: For learning only
 -->
@@ -172,10 +172,10 @@ const goNewsDetail = (id) => {
         </van-image>
       </div>
       <div class="right">
-        <!-- <p v-if="!userInfo.token">游客您好，请登陆</p>
-        <div class="myself" v-else> -->
-        <!-- TODO:后面直接用store里的数据 -->
-        <div class="myself">
+        <p v-if="!userInfo.token">游客您好，请登陆</p>
+        <div class="myself" v-else>
+          <!-- <div class="myself"> -->
+          <!-- TODO:后面直接用store里的数据 -->
           <p>欢迎您：@{{ usersInfo.username }}</p>
           <p>性别：{{ genderMap.get(usersInfo.gender) }}</p>
           <p>简介：{{ usersInfo.introduction }}</p>
@@ -193,7 +193,8 @@ const goNewsDetail = (id) => {
         </div>
       </div>
     </div>
-    <div class="content">
+    <van-empty v-if="!userInfo.token" description="暂无数据" />
+    <div class="content" v-else>
       <van-tabs v-model:active="active" sticky>
         <van-tab title="我的收藏">
           <van-grid
