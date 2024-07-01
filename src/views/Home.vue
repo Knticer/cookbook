@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:23:30
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-01 22:20:42
+ * @LastEditTime: 2024-07-01 23:12:27
  * @FilePath: Home.vue
  * @Description: For learning only
 -->
@@ -57,8 +57,8 @@ const getHot = async () => {
 }
 
 onMounted(() => {
-  getHot()
   getCuisine()
+  getHot()
 })
 
 /**
