@@ -39,7 +39,7 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   (response) => {
-    const token = response.data.data.token
+    const token = response.data.data?.token
     token && localStorage.setItem('token', token)
     if (response.data.code === 200) {
       showSuccessToast({
