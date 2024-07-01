@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:24:24
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-06-30 20:50:01
+ * @LastEditTime: 2024-07-01 11:40:10
  * @FilePath: Category.vue
  * @Description: For learning only
 -->
@@ -128,9 +128,10 @@ const goDetail = (id) => {
       placeholder="请输入搜索相关菜谱"
       @search="onSearch"
     />
+    <img style="width: 100%" src="@/assets/category_header.png" />
     <div class="content">
       <div class="aside">
-        <van-sidebar v-model="active" style="padding-bottom: 75px">
+        <van-sidebar v-model="active">
           <van-sidebar-item
             v-for="(item, index) in categoryMap[route.query.category || 1]"
             :key="index"
@@ -180,17 +181,21 @@ const goDetail = (id) => {
 .container {
   height: 100vh;
   .content {
-    height: calc(100vh - 155px);
+    height: calc(100vh - 240px);
     display: flex;
     .aside {
       width: 30%;
-      height: 100%;
-      overflow-y: auto;
+      .van-sidebar {
+        height: 100%;
+        overflow-y: auto;
+      }
     }
     .rightSide {
       width: 100%;
       padding: 5px;
       .list {
+        height: 100%;
+        overflow-y: auto;
         margin-top: 10px;
       }
     }

@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:25:26
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-01 10:32:58
+ * @LastEditTime: 2024-07-01 11:27:47
  * @FilePath: News.vue
  * @Description: For learning only
 -->
@@ -185,8 +185,8 @@ const goNewsDetail = (id) => {
       <!-- 空状态 -->
       <van-empty v-else description="请先登录" />
     </van-action-sheet>
-    <img src="@/assets/news_header.png" style="width: 100%" />
     <div class="newsList">
+      <img src="@/assets/news_header.png" style="width: 100%" />
       <van-cell
         v-for="item in newsList"
         :key="item.id"
@@ -209,10 +209,13 @@ const goNewsDetail = (id) => {
 <style lang="scss" scoped>
 .container {
   height: 100vh;
-  overflow: auto;
   :deep .van-cell__title {
     font-size: 16px;
     margin-left: 10px;
+  }
+  .newsList {
+    height: calc(100vh - 220px);
+    overflow: auto;
   }
 }
 </style>
