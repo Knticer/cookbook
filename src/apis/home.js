@@ -2,13 +2,11 @@
  * @Author: ChenXin
  * @Date: 2024-07-01 21:07:07
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-01 21:37:44
+ * @LastEditTime: 2024-07-01 23:46:57
  * @FilePath: home.js
  * @Description: For learning only
  */
 import request from '@/utils/request'
-
-export const homeSwiperService = () => {}
 
 /**
  * @description: 获取菜系
