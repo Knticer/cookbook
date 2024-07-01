@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:35:24
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-01 22:43:54
+ * @LastEditTime: 2024-07-01 23:02:48
  * @FilePath: request.js
  * @Description: For learning only
  */
@@ -23,7 +23,7 @@ const instance = axios.create({
 instance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token')
-    token && (config.headers.token = token)
+    token && (config.headers['token'] = token)
     showLoadingToast({
       message: '加载中...',
       forbidClick: true,
