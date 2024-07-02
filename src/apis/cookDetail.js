@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-07-01 21:47:09
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-01 21:48:33
+ * @LastEditTime: 2024-07-02 16:10:13
  * @FilePath: cookDetail.js
  * @Description: For learning only
  */
@@ -18,5 +18,38 @@ export const cookGetService = (id) => {
   return request({
     url: `/recipe/get/${id}`,
     method: 'get'
+  })
+}
+
+/**
+ * @description: 查询菜谱评论
+ * @param {*} id 菜谱id
+ * @return {*}
+ * @example: 例子
+ */
+export const cookGetCommentService = (id) => {
+  return request({
+    url: `/recipe/comments/${id}`,
+    method: 'get'
+  })
+}
+
+/**
+ * @description: 添加菜谱评论
+ * @param {*} data 添加评论的数据
+ * @return {*}
+ * @example: 例子
+ * {
+ *  "userId": 1,
+ *  "recipeId": 1,
+ *  "title": "评论标题",
+ *  "description": "评论内容",
+ * }
+ */
+export const cookCommentAddService = (data) => {
+  return request({
+    url: '/recipe/comments/add',
+    method: 'post',
+    data
   })
 }

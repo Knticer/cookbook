@@ -2,18 +2,23 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:32:17
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-01 21:56:16
+ * @LastEditTime: 2024-07-02 16:14:44
  * @FilePath: CookDetail.vue
  * @Description: For learning only
 -->
 <script setup>
-import { cookGetService } from '@/apis/cookDetail'
+import {
+  cookGetService,
+  cookGetCommentService,
+  cookCommentAddService
+} from '@/apis/cookDetail'
 import { useUserStore } from '@/stores/userStore'
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
+// 获取菜谱详情
 const cookObj = ref({})
 const getDetail = async () => {
   const res = await cookGetService(route.params.id)
@@ -30,24 +35,16 @@ const goCollect = () => {
   console.log('点击收藏')
 }
 
-// TODO:菜谱评论
-const commentList = ref([
-  {
-    id: 1,
-    username: '小红',
-    editTime: '2024-06-27',
-    content: '这个菜谱很好吃！'
-  },
-  {
-    id: 2,
-    username: '小刚',
-    editTime: '2024-06-28',
-    content: '我也觉得！'
-  }
-])
+// 菜谱评论相关逻辑
+const commentList = ref([])
+const getComment = async () => {
+  const res = await cookGetCommentService(route.params.id)
+  commentList.value = res.data
+}
 
 onMounted(() => {
   getDetail()
+  getComment()
 })
 
 // 动作面板逻辑
@@ -57,21 +54,28 @@ const token = userStore.userInfo.token
 const showAction = ref(false)
 const formRef = ref(null)
 const ruleForm = ref({
+  userId: userStore.userInfo.userId,
+  recipeId: route.params.id,
   title: '',
-  content: ''
+  description: ''
 })
 const rules = ref({
   title: [{ required: true, message: '请输入标题', trigger: 'onBlur' }],
-  content: [{ required: true, message: '请输入评论内容', trigger: 'onBlur' }]
+  description: [
+    { required: true, message: '请输入评论内容', trigger: 'onBlur' }
+  ]
 })
 /**
  * @description: 提交评论
  * @return {*}
  * @example: 例子
  */
-const onSubmit = () => {
-  console.log(ruleForm.value)
-  // TODO: 提交评论
+const onSubmit = async () => {
+  if (!token) return
+  await formRef.value.validate()
+  await cookCommentAddService(ruleForm.value)
+  getComment()
+  clearForm()
 }
 /**
  * @description: 重置表单
@@ -80,9 +84,8 @@ const onSubmit = () => {
  */
 const clearForm = () => {
   if (!token) return
-
   ruleForm.value.title = ''
-  ruleForm.value.content = ''
+  ruleForm.value.description = ''
   formRef.value.resetValidation()
   showAction.value = false
 }
@@ -159,12 +162,12 @@ const clearForm = () => {
               required
             />
             <van-field
-              v-model="ruleForm.content"
+              v-model="ruleForm.description"
               rows="2"
               autosize
               label="评论内容"
               type="textarea"
-              :rules="rules.content"
+              :rules="rules.description"
               placeholder="请输入评论内容"
               required
             />
@@ -177,10 +180,10 @@ const clearForm = () => {
         <van-cell-group>
           <van-cell
             v-for="item in commentList"
-            :key="item.id"
-            :title="item.username"
-            :label="item.editTime"
-            :value="item.content"
+            :key="item.commentsId"
+            :title="item.user.username"
+            :label="item.createTime"
+            :value="item.description"
           />
         </van-cell-group>
       </div>
