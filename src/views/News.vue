@@ -196,13 +196,13 @@ onMounted(() => {
 <style lang="scss" scoped>
 .container {
   height: 100vh;
-  :deep .van-cell__title {
-    font-size: 16px;
-    margin-left: 10px;
-  }
   .newsList {
     height: calc(100vh - 220px);
     overflow: auto;
+    :deep .van-cell__title {
+      font-size: 16px;
+      margin-left: 10px;
+    }
   }
 }
 </style>
