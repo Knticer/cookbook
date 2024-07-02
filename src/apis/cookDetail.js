@@ -10,7 +10,7 @@ import request from '@/utils/request'
 
 /**
  * @description: 获取菜谱详情
- * @param {*} id 菜谱id
+ * @param {*} id 菜系id(recipeId)
  * @return {*}
  * @example: 例子
  */

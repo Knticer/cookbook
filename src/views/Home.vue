@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:23:30
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-01 23:16:13
+ * @LastEditTime: 2024-07-02 09:38:14
  * @FilePath: Home.vue
  * @Description: For learning only
 -->
@@ -21,35 +21,13 @@ const userStore = useUserStore()
 const router = useRouter()
 const { avatarImg } = useAvatar(userStore)
 
-// TODO:从后端获取本周流行菜谱
-const popCook = ref([
-  {
-    id: 1,
-    name: 'Tomato',
-    img: 'https://img.yzcdn.cn/vant/apple-1.jpg'
-  },
-  {
-    id: 2,
-    name: 'Apple',
-    img: 'https://img.yzcdn.cn/vant/apple-2.jpg'
-  },
-  {
-    id: 3,
-    name: 'Banana',
-    img: 'https://img.yzcdn.cn/vant/apple-3.jpg'
-  },
-  {
-    id: 4,
-    name: 'Orange',
-    img: 'https://img.yzcdn.cn/vant/apple-4.jpg'
-  }
-])
-
+// 菜系相关
 const cuisine = ref([])
 const getCuisine = async () => {
   const res = await homeCuisineService()
   cuisine.value = res.data
 }
+// 热门推荐
 const hotList = ref([])
 const getHot = async () => {
   const res = await homeGetHotService()
@@ -105,12 +83,12 @@ const goDetail = (id) => {
       </van-image>
     </div>
     <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
-      <van-swipe-item v-for="item in popCook" :key="item.id">
+      <van-swipe-item v-for="item in cuisine" :key="item.cuisineId">
         <van-image
           width="100%"
           height="100%"
           fit="cover"
-          :src="item.img"
+          :src="`http://localhost:9090${item.img}`"
         ></van-image>
       </van-swipe-item>
     </van-swipe>

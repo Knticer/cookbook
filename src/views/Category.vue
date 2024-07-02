@@ -2,11 +2,16 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:24:24
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-01 16:22:35
+ * @LastEditTime: 2024-07-02 10:16:47
  * @FilePath: Category.vue
  * @Description: For learning only
 -->
 <script setup>
+import {
+  categoryByCuisineService,
+  categoryByKindService
+} from '@/apis/category'
+import { homeCuisineService, homeIngredientService } from '@/apis/home'
 import { watchEffect } from 'vue'
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -28,14 +33,34 @@ const onSearch = (value) => {
 
 // 侧边栏逻辑
 const active = ref(0)
-// TODO:根据后端返回的数据渲染侧边栏
-const categoryMap = {
-  0: ['川菜', '湘菜', '粤菜', '鲁菜', '苏菜', '浙菜', '闽菜', '徽菜'],
-  1: ['肉类', '蔬菜', '水产', '主食', '汤粥', '小吃', '饮品', '烘焙']
+const categoryMap = ref({
+  0: [],
+  1: []
+})
+/**
+ * @description: 获取侧边栏-菜系
+ * @return {*}
+ * @example: 例子
+ */
+const getCuisineSide = async () => {
+  const res = await homeCuisineService()
+  categoryMap.value[0] = res.data
+}
+const getIngredientSide = async () => {
+  const res = await homeIngredientService()
+  categoryMap.value[1] = res.data
 }
 watchEffect(() => {
-  // TODO: 根据路由参数渲染不同的侧边栏数据
-  console.log(route.query)
+  const type = route.query.category || '1'
+  const cuisineId = route.query.cuisine || '1'
+  const ingredientId = route.query.ingredient || '1'
+  if (type === '0') {
+    getCuisineSide()
+    cuisineId && getRecipesByCuisineId(cuisineId)
+  } else {
+    getIngredientSide()
+    ingredientId && getRecipesByIngredientId(ingredientId)
+  }
 })
 /**
  * @description: 切换分类状态
@@ -49,65 +74,27 @@ const switchCategory = () => {
 }
 
 // 右侧食谱列表逻辑
-// TODO: 根据后端返回的数据渲染食谱列表
-const recipes = ref([
-  {
-    id: 1,
-    name: '麻婆豆腐',
-    img: 'https://img.yzcdn.cn/vant/apple-1.jpg',
-    view: 1000,
-    like: 100
-  },
-  {
-    id: 2,
-    name: '红烧肉',
-    img: 'https://img.yzcdn.cn/vant/apple-2.jpg',
-    view: 1000,
-    like: 100
-  },
-  {
-    id: 3,
-    name: '鱼香肉丝',
-    img: 'https://img.yzcdn.cn/vant/apple-3.jpg',
-    view: 1000,
-    like: 100
-  },
-  {
-    id: 4,
-    name: '宫保鸡丁',
-    img: 'https://img.yzcdn.cn/vant/apple-4.jpg',
-    view: 1000,
-    like: 100
-  },
-  {
-    id: 5,
-    name: '酸菜鱼',
-    img: 'https://img.yzcdn.cn/vant/apple-5.jpg',
-    view: 1000,
-    like: 100
-  },
-  {
-    id: 6,
-    name: '红烧鱼',
-    img: 'https://img.yzcdn.cn/vant/apple-6.jpg',
-    view: 1000,
-    like: 100
-  },
-  {
-    id: 7,
-    name: '红烧排骨',
-    img: 'https://img.yzcdn.cn/vant/apple-7.jpg',
-    view: 1000,
-    like: 100
-  },
-  {
-    id: 8,
-    name: '红烧鸡块',
-    img: 'https://img.yzcdn.cn/vant/apple-8.jpg',
-    view: 1000,
-    like: 100
-  }
-])
+const recipes = ref([])
+/**
+ * @description: 根据菜系id获取菜谱
+ * @param {*} id 菜系id
+ * @return {*}
+ * @example: 例子
+ */
+const getRecipesByCuisineId = async (id) => {
+  const res = await categoryByCuisineService(id)
+  recipes.value = res.data
+}
+/**
+ * @description: 根据食材id获取菜谱
+ * @param {*} id 食材id
+ * @return {*}
+ * @example: 例子
+ */
+const getRecipesByIngredientId = async (id) => {
+  const res = await categoryByKindService(id)
+  recipes.value = res.data
+}
 /**
  * @description: 查看菜谱详情
  * @param {*} id 菜谱id
@@ -133,12 +120,12 @@ const goDetail = (id) => {
       <div class="aside">
         <van-sidebar v-model="active">
           <van-sidebar-item
-            v-for="(item, index) in categoryMap[route.query.category || 1]"
-            :key="index"
+            v-for="item in categoryMap[route.query.category || 1]"
+            :key="item"
             :title="item"
-            :to="`/category?category=${route.query.category || 1}&${
+            :to="`/category?category=${route.query.category || '1'}&${
               route.query.category === '0' ? 'cuisine' : 'ingredient'
-            }=${item}`"
+            }=${item.cuisineId || item.kindId}`"
           />
         </van-sidebar>
       </div>
@@ -158,8 +145,8 @@ const goDetail = (id) => {
           >
             <van-grid-item
               v-for="item in recipes"
-              :key="item.id"
-              @click="goDetail(item.id)"
+              :key="item"
+              @click="goDetail(item.recipeId)"
             >
               <van-image
                 width="100%"
