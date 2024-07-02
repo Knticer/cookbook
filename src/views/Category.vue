@@ -124,7 +124,7 @@ watchEffect(() => {
           <van-sidebar-item
             v-for="item in categoryMap[route.query.category || 1]"
             :key="item"
-            :title="item"
+            :title="item.name"
             :to="`/category?category=${route.query.category || '1'}&${
               route.query.category === '0' ? 'cuisine' : 'ingredient'
             }=${item.cuisineId || item.kindId}`"
@@ -154,7 +154,7 @@ watchEffect(() => {
                 width="100%"
                 height="15vw"
                 fit="cover"
-                :src="item.img"
+                :src="`http://localhost:9090${item.img}`"
               ></van-image>
               <div>{{ item.name }}</div>
             </van-grid-item>
