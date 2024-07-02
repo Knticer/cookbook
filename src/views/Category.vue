@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:24:24
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-02 10:25:20
+ * @LastEditTime: 2024-07-02 10:37:45
  * @FilePath: Category.vue
  * @Description: For learning only
 -->
@@ -156,7 +156,7 @@ watchEffect(() => {
                 fit="cover"
                 :src="`http://localhost:9090${item.img}`"
               ></van-image>
-              <div>{{ item.name }}</div>
+              <van-text-ellipsis :content="item.name" />
             </van-grid-item>
           </van-grid>
           <van-back-top bottom="20vw" />

@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:23:30
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-02 09:38:14
+ * @LastEditTime: 2024-07-02 10:38:43
  * @FilePath: Home.vue
  * @Description: For learning only
 -->
@@ -114,7 +114,7 @@ const goDetail = (id) => {
           fit="cover"
           :src="`http://localhost:9090${item.img}`"
         ></van-image>
-        <div>{{ item.name }}</div>
+        <van-text-ellipsis :content="item.name" />
         <div>浏览量: {{ item.views }}</div>
         <div>收藏量: {{ item.collects }}</div>
       </van-grid-item>

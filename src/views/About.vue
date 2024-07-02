@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:26:06
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-01 21:10:50
+ * @LastEditTime: 2024-07-02 10:40:31
  * @FilePath: About.vue
  * @Description: For learning only
 -->
@@ -205,7 +205,7 @@ const goNewsDetail = (id) => {
                 fit="cover"
                 :src="item.img"
               ></van-image>
-              <div>{{ item.name }}</div>
+              <van-text-ellipsis :content="item.name" />
             </van-grid-item>
           </van-grid>
         </van-tab>
