@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:26:06
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-02 10:40:31
+ * @LastEditTime: 2024-07-02 17:05:08
  * @FilePath: About.vue
  * @Description: For learning only
 -->
@@ -10,10 +10,11 @@
 import { useAvatar } from '@/hooks/useAvatar'
 import { useUserStore } from '@/stores/userStore'
 import { storeToRefs } from 'pinia'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { showImagePreview } from 'vant'
 import DiyPop from './components/DiyPop.vue'
 import { useRouter } from 'vue-router'
+import { userGetFavoriteService } from '@/apis/user'
 
 defineOptions({
   name: 'AboutPage'
@@ -32,59 +33,13 @@ const genderMap = new Map([
 ])
 
 // 标签栏相关
-// TODO:模拟数据
 const active = ref(0)
-const likeList = ref([
-  {
-    id: 1,
-    name: '麻婆豆腐',
-    img: 'https://img.yzcdn.cn/vant/apple-1.jpg',
-    view: 1000,
-    like: 100
-  },
-  {
-    id: 2,
-    name: '红烧肉',
-    img: 'https://img.yzcdn.cn/vant/apple-2.jpg',
-    view: 1000,
-    like: 100
-  },
-  {
-    id: 3,
-    name: '鱼香肉丝',
-    img: 'https://img.yzcdn.cn/vant/apple-3.jpg',
-    view: 1000,
-    like: 100
-  },
-  {
-    id: 4,
-    name: '宫保鸡丁',
-    img: 'https://img.yzcdn.cn/vant/apple-4.jpg',
-    view: 1000,
-    like: 100
-  },
-  {
-    id: 5,
-    name: '酸菜鱼',
-    img: 'https://img.yzcdn.cn/vant/apple-5.jpg',
-    view: 1000,
-    like: 100
-  },
-  {
-    id: 6,
-    name: '红烧鱼',
-    img: 'https://img.yzcdn.cn/vant/apple-6.jpg',
-    view: 1000,
-    like: 100
-  },
-  {
-    id: 7,
-    name: '红烧排骨',
-    img: 'https://img.yzcdn.cn/vant/apple-7.jpg',
-    view: 1000,
-    like: 100
-  }
-])
+const likeList = ref([])
+const getFavorite = async () => {
+  const res = await userGetFavoriteService()
+  likeList.value = res.data
+}
+// TODO:模拟数据
 const topicList = ref([
   {
     id: 1,
@@ -112,6 +67,12 @@ const topicList = ref([
     date: '2024-06-29'
   }
 ])
+
+onMounted(() => {
+  if (userInfo.token) {
+    getFavorite()
+  }
+})
 /**
  * @description: 查看菜谱详情
  * @param {*} id 菜谱id
@@ -166,8 +127,6 @@ const goNewsDetail = (id) => {
       <div class="right">
         <p v-if="!userInfo.token">游客您好，请登陆</p>
         <div class="myself" v-else>
-          <!-- <div class="myself"> -->
-          <!-- TODO:后面直接用store里的数据 -->
           <p>欢迎您：@{{ userInfo.username }}</p>
           <p>性别：{{ genderMap.get(userInfo.gender) }}</p>
           <p>简介：{{ userInfo.introduction }}</p>
@@ -196,16 +155,16 @@ const goNewsDetail = (id) => {
           >
             <van-grid-item
               v-for="item in likeList"
-              :key="item.id"
-              @click="goDetail(item.id)"
+              :key="item.favoriteId"
+              @click="goDetail(item.recipe.recipeId)"
             >
               <van-image
                 width="100%"
                 height="15vw"
                 fit="cover"
-                :src="item.img"
+                :src="`http://localhost:9090${item.recipe.img}`"
               ></van-image>
-              <van-text-ellipsis :content="item.name" />
+              <van-text-ellipsis :content="item.recipe.name" />
             </van-grid-item>
           </van-grid>
         </van-tab>

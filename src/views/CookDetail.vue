@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:32:17
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-02 16:14:44
+ * @LastEditTime: 2024-07-02 17:14:14
  * @FilePath: CookDetail.vue
  * @Description: For learning only
 -->
@@ -10,7 +10,8 @@
 import {
   cookGetService,
   cookGetCommentService,
-  cookCommentAddService
+  cookCommentAddService,
+  cookAddFavoriteService
 } from '@/apis/cookDetail'
 import { useUserStore } from '@/stores/userStore'
 import { ref, onMounted } from 'vue'
@@ -30,9 +31,9 @@ const getDetail = async () => {
  * @return {*}
  * @example: 例子
  */
-const goCollect = () => {
-  // TODO: 收藏逻辑
-  console.log('点击收藏')
+const goCollect = async () => {
+  !cookObj.value.favorite &&
+    (await cookAddFavoriteService(cookObj.value.recipeId))
 }
 
 // 菜谱评论相关逻辑

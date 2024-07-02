@@ -53,3 +53,16 @@ export const cookCommentAddService = (data) => {
     data
   })
 }
+
+/**
+ * @description: 添加菜谱收藏
+ * @param {*} id 菜谱id
+ * @return {*}
+ * @example: 例子
+ */
+export const cookAddFavoriteService = (id) => {
+  return request({
+    url: `/favorite/add/${id}`,
+    method: 'post'
+  })
+}

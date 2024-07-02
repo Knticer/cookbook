@@ -38,3 +38,15 @@ export const userRegisterService = (data) => {
     data
   })
 }
+
+/**
+ * @description: 获取我的收藏
+ * @return {*}
+ * @example: 例子
+ */
+export const userGetFavoriteService = () => {
+  return request({
+    method: 'get',
+    url: '/favorite/user'
+  })
+}
