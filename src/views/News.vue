@@ -2,14 +2,16 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:25:26
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-01 16:23:46
+ * @LastEditTime: 2024-07-02 21:56:42
  * @FilePath: News.vue
  * @Description: For learning only
 -->
 <script setup>
+import { newsGetService } from '@/apis/news'
 import { useUserStore } from '@/stores/userStore'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import dayjs from 'dayjs'
 
 defineOptions({
   name: 'NewsPage'
@@ -49,7 +51,6 @@ const onSubmit = () => {
   for (const i in ruleForm.value) {
     params.append(i, ruleForm.value[i])
   }
-  console.log(ruleForm.value)
   // TODO: 提交话题
 }
 /**
@@ -59,7 +60,6 @@ const onSubmit = () => {
  */
 const clearForm = () => {
   if (!token) return
-
   ruleForm.value.title = ''
   ruleForm.value.author = ''
   ruleForm.value.content = ''
@@ -78,33 +78,11 @@ const onSearch = (value) => {
 }
 
 // 话题列表相关逻辑
-const newsList = ref([
-  {
-    id: 1,
-    title: '夏日清爽美食推荐',
-    author: '小明',
-    content:
-      '夏天到了，推荐几款清爽美食给大家。比如：冰镇西瓜、凉拌黄瓜、凉皮等。',
-    img: 'https://img.yzcdn.cn/vant/apple-2.jpg',
-    date: '2024-06-27'
-  },
-  {
-    id: 2,
-    title: '最新电影推荐',
-    author: '小红',
-    content: '最新上映的电影《黑寡妇》非常好看，推荐大家去电影院观看。',
-    img: 'https://img.yzcdn.cn/vant/apple-3.jpg',
-    date: '2024-06-28'
-  },
-  {
-    id: 3,
-    title: '最新电视剧推荐',
-    author: '小刚',
-    content: '最新热播的电视剧《青春有你》非常好看，推荐大家观看。',
-    img: 'https://img.yzcdn.cn/vant/apple-4.jpg',
-    date: '2024-06-29'
-  }
-])
+const newsList = ref([])
+const getTopicList = async () => {
+  const res = await newsGetService()
+  newsList.value = res.data
+}
 /**
  * @description: 去话题详情页
  * @param {*} id 话题id
@@ -114,6 +92,10 @@ const newsList = ref([
 const goNewsDetail = (id) => {
   router.push(`/newsDetail/${id}`)
 }
+
+onMounted(() => {
+  getTopicList()
+})
 </script>
 <template>
   <div class="container">
@@ -182,24 +164,28 @@ const goNewsDetail = (id) => {
           添加话题
         </van-button>
       </van-form>
-      <!-- 空状态 -->
       <van-empty v-else description="请先登录" />
     </van-action-sheet>
     <div class="newsList">
       <img src="@/assets/news_header.png" style="width: 100%" />
       <van-cell
         v-for="item in newsList"
-        :key="item.id"
-        :label="item.author"
-        :value="item.date"
+        :key="item.topicId"
+        :label="item.username"
+        :value="dayjs(item.createTime).format('YYYY-MM-DD')"
         is-link
-        @click="goNewsDetail(item.id)"
+        @click="goNewsDetail(item.topicId)"
       >
         <template #title>
           <van-text-ellipsis :content="item.title" />
         </template>
         <template #icon>
-          <van-image width="25vw" height="25vw" fit="cover" :src="item.img" />
+          <van-image
+            width="25vw"
+            height="25vw"
+            fit="cover"
+            :src="`http://localhost:9090${item.img}`"
+          />
         </template>
       </van-cell>
       <van-back-top bottom="20vw" />

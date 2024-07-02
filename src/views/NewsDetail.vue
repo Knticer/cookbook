@@ -2,44 +2,40 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:32:50
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-01 16:35:23
+ * @LastEditTime: 2024-07-02 22:54:53
  * @FilePath: NewsDetail.vue
  * @Description: For learning only
 -->
 <script setup>
+import {
+  newsCurrentService,
+  newsCommentService,
+  newsAddCommentService
+} from '@/apis/news'
 import { useUserStore } from '@/stores/userStore'
-import { ref } from 'vue'
+import dayjs from 'dayjs'
+import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const { id } = route.params
 
 // 当前话题详情
-// TODO: 从接口获取当前话题详情
-console.log(id)
-const curDetail = ref({
-  id: 1,
-  title: '夏日清爽美食推荐',
-  author: '小明',
-  content:
-    '夏天到了，推荐几款清爽美食给大家。比如：冰镇西瓜、凉拌黄瓜、凉皮等。',
-  img: 'https://img.yzcdn.cn/vant/apple-2.jpg',
-  date: '2024-06-27'
+const curDetail = ref({})
+const getTopic = async () => {
+  const res = await newsCurrentService(id)
+  curDetail.value = res.data
+}
+const commentList = ref([])
+const getComment = async () => {
+  const res = await newsCommentService(id)
+  commentList.value = res.data
+}
+
+onMounted(() => {
+  getTopic()
+  getComment()
 })
-const commentList = ref([
-  {
-    id: 1,
-    username: '小红',
-    editTime: '2024-06-27',
-    content: '这个话题很有意思！'
-  },
-  {
-    id: 2,
-    username: '小刚',
-    editTime: '2024-06-28',
-    content: '我也觉得！'
-  }
-])
 
 // 动作面板逻辑
 const userStore = useUserStore()
@@ -48,6 +44,8 @@ const token = userStore.userInfo.token
 const showAction = ref(false)
 const formRef = ref(null)
 const ruleForm = ref({
+  topicId: id,
+  userId: userStore.userInfo.uerId,
   title: '',
   content: ''
 })
@@ -60,9 +58,12 @@ const rules = ref({
  * @return {*}
  * @example: 例子
  */
-const onSubmit = () => {
-  console.log(ruleForm.value)
-  // TODO: 提交评论
+const onSubmit = async () => {
+  if (!token) return
+  await formRef.value.validate()
+  await newsAddCommentService(ruleForm.value)
+  getComment()
+  clearForm()
 }
 /**
  * @description: 重置表单
@@ -71,7 +72,6 @@ const onSubmit = () => {
  */
 const clearForm = () => {
   if (!token) return
-
   ruleForm.value.title = ''
   ruleForm.value.content = ''
   formRef.value.resetValidation()
@@ -93,27 +93,26 @@ const clearForm = () => {
       </template>
     </van-nav-bar>
     <van-image
-      v-if="curDetail.img"
-      :src="curDetail.img"
+      :src="`http://localhost:9090${curDetail.img}`"
       fit="cover"
       width="100%"
       height="50vw"
     />
     <div class="title">
       <p class="top">{{ curDetail.title }}</p>
-      <p class="time">{{ curDetail.date }}</p>
+      <p class="time">{{ dayjs(curDetail.createTime).format('YYYY-MM-DD') }}</p>
       <van-divider
         content-position="right"
         style="margin-top: 10px; margin-bottom: 5px"
       >
-        作者：{{ curDetail.author }}
+        作者：{{ curDetail.username }}
       </van-divider>
     </div>
     <van-cell-group>
       <van-cell title="话题详情" style="color: #1c8eff" />
     </van-cell-group>
     <div class="content">
-      {{ curDetail.content }}
+      {{ curDetail.description }}
     </div>
     <van-cell-group>
       <van-cell title="评论区" style="color: #1c8eff">
@@ -162,13 +161,13 @@ const clearForm = () => {
       <van-cell-group>
         <van-cell
           v-for="item in commentList"
-          :key="item.id"
+          :key="item.commentId"
           :title="item.content"
-          :label="item.username"
+          :label="item.user.username"
           icon="chat-o"
         >
           <template #default>
-            <div>{{ item.editTime }}</div>
+            <div>{{ dayjs(item.createTime).format('YYYY-MM-DD') }}</div>
           </template>
         </van-cell>
       </van-cell-group>

@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:32:17
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-02 17:14:14
+ * @LastEditTime: 2024-07-02 21:05:09
  * @FilePath: CookDetail.vue
  * @Description: For learning only
 -->
@@ -33,6 +33,15 @@ const getDetail = async () => {
  */
 const goCollect = async () => {
   !cookObj.value.favorite &&
+    (await cookAddFavoriteService(cookObj.value.recipeId))
+}
+/**
+ * @description: 取消收藏
+ * @return {*}
+ * @example: 例子
+ */
+const goCancelCollect = async () => {
+  cookObj.value.favorite &&
     (await cookAddFavoriteService(cookObj.value.recipeId))
 }
 
@@ -117,8 +126,22 @@ const clearForm = () => {
           <span>浏览量：{{ cookObj.views }} / </span>
           <span>收藏：{{ cookObj.collects }}</span>
         </div>
-        <van-button round style="margin-top: 10px" @click="goCollect" :disabled="cookObj.favorite">
+        <van-button
+          round
+          style="margin-top: 10px"
+          @click="goCollect"
+          v-show="!cookObj.favorite"
+        >
           点击收藏
+        </van-button>
+        <van-button
+          round
+          style="margin-top: 10px"
+          type="danger"
+          v-show="cookObj.favorite"
+          @click="goCancelCollect"
+        >
+          取消收藏
         </van-button>
       </div>
       <p class="title">食材准备</p>

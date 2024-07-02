@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-07-01 21:47:09
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-02 16:10:13
+ * @LastEditTime: 2024-07-02 21:04:36
  * @FilePath: cookDetail.js
  * @Description: For learning only
  */

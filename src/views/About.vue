@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:26:06
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-02 17:05:08
+ * @LastEditTime: 2024-07-02 23:16:48
  * @FilePath: About.vue
  * @Description: For learning only
 -->
@@ -14,7 +14,8 @@ import { ref, onMounted } from 'vue'
 import { showImagePreview } from 'vant'
 import DiyPop from './components/DiyPop.vue'
 import { useRouter } from 'vue-router'
-import { userGetFavoriteService } from '@/apis/user'
+import { userGetFavoriteService, userGetTopicService } from '@/apis/user'
+import dayjs from 'dayjs'
 
 defineOptions({
   name: 'AboutPage'
@@ -39,38 +40,16 @@ const getFavorite = async () => {
   const res = await userGetFavoriteService()
   likeList.value = res.data
 }
-// TODO:模拟数据
-const topicList = ref([
-  {
-    id: 1,
-    title: '夏日清爽美食推荐',
-    author: '小明',
-    content:
-      '夏天到了，推荐几款清爽美食给大家。比如：冰镇西瓜、凉拌黄瓜、凉皮等。',
-    img: 'https://img.yzcdn.cn/vant/apple-2.jpg',
-    date: '2024-06-27'
-  },
-  {
-    id: 2,
-    title: '最新电影推荐',
-    author: '小红',
-    content: '最新上映的电影《黑寡妇》非常好看，推荐大家去电影院观看。',
-    img: 'https://img.yzcdn.cn/vant/apple-3.jpg',
-    date: '2024-06-28'
-  },
-  {
-    id: 3,
-    title: '最新电视剧推荐',
-    author: '小刚',
-    content: '最新热播的电视剧《青春有你》非常好看，推荐大家观看。',
-    img: 'https://img.yzcdn.cn/vant/apple-4.jpg',
-    date: '2024-06-29'
-  }
-])
+const topicList = ref([])
+const getTopic = async () => {
+  const res = await userGetTopicService(userInfo.value.uerId)
+  topicList.value = res.data
+}
 
 onMounted(() => {
   if (userInfo.value.token) {
     getFavorite()
+    getTopic()
   }
 })
 /**
@@ -165,18 +144,18 @@ const goNewsDetail = (id) => {
                 :src="`http://localhost:9090${item.recipe.img}`"
               ></van-image>
               <!-- <van-text-ellipsis :content="item.recipe.name" /> -->
-               <div>{{ item.recipe.name }}</div>
+              <div>{{ item.recipe.name }}</div>
             </van-grid-item>
           </van-grid>
         </van-tab>
         <van-tab title="我的话题">
           <van-cell
             v-for="item in topicList"
-            :key="item.id"
-            :label="item.author"
-            :value="item.date"
+            :key="item.topicId"
+            :label="item.username"
+            :value="dayjs(item.createTime).format('YYYY-MM-DD')"
             is-link
-            @click="goNewsDetail(item.id)"
+            @click="goNewsDetail(item.topicId)"
           >
             <template #title>
               <van-text-ellipsis :content="item.title" />
@@ -186,7 +165,7 @@ const goNewsDetail = (id) => {
                 width="25vw"
                 height="25vw"
                 fit="cover"
-                :src="item.img"
+                :src="`http://localhost:9090${item.img}`"
               />
             </template>
           </van-cell>
