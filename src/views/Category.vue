@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:24:24
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-02 10:16:47
+ * @LastEditTime: 2024-07-02 10:25:20
  * @FilePath: Category.vue
  * @Description: For learning only
 -->
@@ -50,18 +50,7 @@ const getIngredientSide = async () => {
   const res = await homeIngredientService()
   categoryMap.value[1] = res.data
 }
-watchEffect(() => {
-  const type = route.query.category || '1'
-  const cuisineId = route.query.cuisine || '1'
-  const ingredientId = route.query.ingredient || '1'
-  if (type === '0') {
-    getCuisineSide()
-    cuisineId && getRecipesByCuisineId(cuisineId)
-  } else {
-    getIngredientSide()
-    ingredientId && getRecipesByIngredientId(ingredientId)
-  }
-})
+
 /**
  * @description: 切换分类状态
  * @return {*}
@@ -104,6 +93,19 @@ const getRecipesByIngredientId = async (id) => {
 const goDetail = (id) => {
   router.push(`/cookDetail/${id}`)
 }
+
+watchEffect(() => {
+  const type = route.query.category || '1'
+  const cuisineId = route.query.cuisine || '1'
+  const ingredientId = route.query.ingredient || '1'
+  if (type === '0') {
+    getCuisineSide()
+    cuisineId && getRecipesByCuisineId(cuisineId)
+  } else {
+    getIngredientSide()
+    ingredientId && getRecipesByIngredientId(ingredientId)
+  }
+})
 </script>
 <template>
   <div class="container">
