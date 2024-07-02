@@ -69,7 +69,7 @@ const topicList = ref([
 ])
 
 onMounted(() => {
-  if (userInfo.token) {
+  if (userInfo.value.token) {
     getFavorite()
   }
 })
@@ -164,7 +164,8 @@ const goNewsDetail = (id) => {
                 fit="cover"
                 :src="`http://localhost:9090${item.recipe.img}`"
               ></van-image>
-              <van-text-ellipsis :content="item.recipe.name" />
+              <!-- <van-text-ellipsis :content="item.recipe.name" /> -->
+               <div>{{ item.recipe.name }}</div>
             </van-grid-item>
           </van-grid>
         </van-tab>

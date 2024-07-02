@@ -55,7 +55,7 @@ const token = userStore.userInfo.token
 const showAction = ref(false)
 const formRef = ref(null)
 const ruleForm = ref({
-  userId: userStore.userInfo.userId,
+  userId: userStore.userInfo.uerId,
   recipeId: route.params.id,
   title: '',
   description: ''
@@ -117,7 +117,7 @@ const clearForm = () => {
           <span>浏览量：{{ cookObj.views }} / </span>
           <span>收藏：{{ cookObj.collects }}</span>
         </div>
-        <van-button round style="margin-top: 10px" @click="goCollect">
+        <van-button round style="margin-top: 10px" @click="goCollect" :disabled="cookObj.favorite">
           点击收藏
         </van-button>
       </div>
