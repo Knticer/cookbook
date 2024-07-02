@@ -2,11 +2,12 @@
  * @Author: ChenXin
  * @Date: 2024-07-01 11:02:42
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-01 11:03:05
+ * @LastEditTime: 2024-07-02 17:27:19
  * @FilePath: DiyPop.vue
  * @Description: For learning only
 -->
 <script setup>
+import { userLogoutService } from '@/apis/user'
 import router from '@/router'
 import { useUserStore } from '@/stores/userStore'
 
@@ -16,13 +17,15 @@ defineProps({
 })
 
 const userStore = useUserStore()
-const handelClick = ({ target: { innerText } }) => {
+const handelClick = async ({ target: { innerText } }) => {
   if (innerText.trim() === '关于') {
     router.push('/home')
   } else if (innerText.trim() === '退出登录') {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
     userStore.clearUserInfo()
+    await userLogoutService()
+    router.push('/login')
   }
 }
 </script>

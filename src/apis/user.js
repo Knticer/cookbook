@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:35:05
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-06-30 17:12:03
+ * @LastEditTime: 2024-07-02 17:26:47
  * @FilePath: user.js
  * @Description: For learning only
  */
@@ -19,6 +19,18 @@ export const userLoginService = (data) => {
     method: 'post',
     url: '/user/login',
     data
+  })
+}
+
+/**
+ * @description: 用户登出
+ * @return {*}
+ * @example: 例子
+ */
+export const userLogoutService = () => {
+  return request({
+    method: 'post',
+    url: '/user/logout'
   })
 }
 
