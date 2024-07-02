@@ -42,7 +42,7 @@ export const categoryByKindService = (id) => {
  */
 export const categorySearchService = (name) => {
   return request({
-    url: '/recipe/name/',
+    url: '/recipe/name',
     method: 'get',
     params: {
       name

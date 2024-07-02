@@ -165,7 +165,8 @@ watchEffect(() => {
                 fit="cover"
                 :src="`http://localhost:9090${item.img}`"
               ></van-image>
-              <van-text-ellipsis :content="item.name" />
+              <!-- <van-text-ellipsis :content="item.name" /> -->
+               <div>{{ item.name }}</div>
             </van-grid-item>
           </van-grid>
           <van-back-top bottom="20vw" />
