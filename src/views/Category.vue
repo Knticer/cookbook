@@ -2,14 +2,15 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:24:24
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-02 10:37:45
+ * @LastEditTime: 2024-07-02 11:37:38
  * @FilePath: Category.vue
  * @Description: For learning only
 -->
 <script setup>
 import {
   categoryByCuisineService,
-  categoryByKindService
+  categoryByKindService,
+  categorySearchService
 } from '@/apis/category'
 import { homeCuisineService, homeIngredientService } from '@/apis/home'
 import { watchEffect } from 'vue'
@@ -25,10 +26,17 @@ const router = useRouter()
 
 // 搜索逻辑
 const search = ref('')
-const onSearch = (value) => {
-  // TODO: 根据搜索关键字得到对应分类
-  console.log(value)
+const showSearch = ref(false)
+const searchList = ref([])
+const onSearch = async (value) => {
+  const res = await categorySearchService(value)
+  searchList.value = res.data
   search.value = ''
+  showSearch.value = true
+}
+const backToCategory = () => {
+  showSearch.value = false
+  searchList.value = []
 }
 
 // 侧边栏逻辑
@@ -95,6 +103,7 @@ const goDetail = (id) => {
 }
 
 watchEffect(() => {
+  showSearch.value = searchList.value.length > 0
   const type = route.query.category || '1'
   const cuisineId = route.query.cuisine || '1'
   const ingredientId = route.query.ingredient || '1'
@@ -118,7 +127,7 @@ watchEffect(() => {
       @search="onSearch"
     />
     <img style="width: 100%" src="@/assets/category_header.png" />
-    <div class="content">
+    <div class="content" v-show="!showSearch">
       <div class="aside">
         <van-sidebar v-model="active">
           <van-sidebar-item
@@ -163,6 +172,32 @@ watchEffect(() => {
         </div>
       </div>
     </div>
+    <div class="searchContent" v-show="showSearch">
+      <van-button block plain hairline @click="backToCategory"
+        >返回查看分类</van-button
+      >
+      <div class="searchList">
+        <van-list>
+          <van-cell
+            v-for="item in searchList"
+            :key="item"
+            :title="item.name"
+            :label="item.description"
+            is-link
+            @click="goDetail(item.recipeId)"
+          >
+            <template #icon>
+              <van-image
+                width="25vw"
+                height="25vw"
+                fit="cover"
+                :src="`http://localhost:9090${item.img}`"
+              />
+            </template>
+          </van-cell>
+        </van-list>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -187,6 +222,15 @@ watchEffect(() => {
         overflow-y: auto;
         margin-top: 10px;
       }
+    }
+  }
+  .searchContent {
+    height: calc(100vh - 190px);
+    overflow-y: hidden;
+    .searchList {
+      height: calc(100vh - 290px);
+      padding: 10px;
+      overflow-y: auto;
     }
   }
 }

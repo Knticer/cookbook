@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-07-01 22:17:28
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-02 10:08:04
+ * @LastEditTime: 2024-07-02 10:46:01
  * @FilePath: category.js
  * @Description: For learning only
  */
@@ -31,5 +31,21 @@ export const categoryByKindService = (id) => {
   return request({
     url: `/recipe/kind/${id}`,
     method: 'get'
+  })
+}
+
+/**
+ * @description: 分类页的菜谱搜索
+ * @param {*} name
+ * @return {*}
+ * @example: 例子
+ */
+export const categorySearchService = (name) => {
+  return request({
+    url: '/recipe/name/',
+    method: 'get',
+    params: {
+      name
+    }
   })
 }
