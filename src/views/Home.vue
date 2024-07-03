@@ -114,7 +114,8 @@ const goDetail = (id) => {
           fit="cover"
           :src="`http://localhost:9090${item.img}`"
         ></van-image>
-        <van-text-ellipsis :content="item.name" />
+        <!-- <van-text-ellipsis :content="item.name" /> -->
+        <h3>{{ item.name }}</h3>
         <div>浏览量: {{ item.views }}</div>
         <div>收藏量: {{ item.collects }}</div>
       </van-grid-item>
