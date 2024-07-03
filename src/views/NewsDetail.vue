@@ -10,7 +10,8 @@
 import {
   newsCurrentService,
   newsCommentService,
-  newsAddCommentService
+  newsAddCommentService,
+  newsLikeService
 } from '@/apis/news'
 import { useUserStore } from '@/stores/userStore'
 import dayjs from 'dayjs'
@@ -30,6 +31,16 @@ const commentList = ref([])
 const getComment = async () => {
   const res = await newsCommentService(id)
   commentList.value = res.data
+}
+
+/**
+ * @description: 点赞话题
+ * @return {*}
+ * @example: 例子
+ */
+const addLike = async () => {
+  await newsLikeService(curDetail.value.topicId)
+  await getTopic()
 }
 
 onMounted(() => {
@@ -109,7 +120,19 @@ const clearForm = () => {
       </van-divider>
     </div>
     <van-cell-group>
-      <van-cell title="话题详情" style="color: #1c8eff" />
+      <van-cell title="话题详情" style="color: #1c8eff">
+        <template #right-icon>
+          <span style="color: #ff0000; margin-right: 10px">
+            话题点赞数：{{ curDetail.likes }}
+          </span>
+          <van-icon
+            :name="curDetail.userLikes ? 'like' : 'like-o'"
+            size="25"
+            color="#ff0000"
+            @click="addLike"
+          />
+        </template>
+      </van-cell>
     </van-cell-group>
     <div class="content">
       {{ curDetail.description }}

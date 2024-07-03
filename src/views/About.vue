@@ -14,7 +14,11 @@ import { ref, onMounted } from 'vue'
 import { showImagePreview } from 'vant'
 import DiyPop from './components/DiyPop.vue'
 import { useRouter } from 'vue-router'
-import { userGetFavoriteService, userGetTopicService } from '@/apis/user'
+import {
+  userGetFavoriteService,
+  userGetTopicLikeService,
+  userGetTopicService
+} from '@/apis/user'
 import dayjs from 'dayjs'
 
 defineOptions({
@@ -45,11 +49,17 @@ const getTopic = async () => {
   const res = await userGetTopicService(userInfo.value.uerId)
   topicList.value = res.data
 }
+const likeTopic = ref([])
+const getLikeTopic = async () => {
+  const res = await userGetTopicLikeService()
+  likeTopic.value = res.data
+}
 
 onMounted(() => {
   if (userInfo.value.token) {
     getFavorite()
     getTopic()
+    getLikeTopic()
   }
 })
 /**
@@ -170,6 +180,28 @@ const goNewsDetail = (id) => {
             </template>
           </van-cell>
         </van-tab>
+        <van-tab title="点赞的话题">
+          <van-cell
+            v-for="item in likeTopic"
+            :key="item.topicId"
+            :label="item.username"
+            :value="`话题点赞数：${item.likes}`"
+            is-link
+            @click="goNewsDetail(item.topicId)"
+          >
+            <template #title>
+              <van-text-ellipsis :content="item.title" />
+            </template>
+            <template #icon>
+              <van-image
+                width="25vw"
+                height="25vw"
+                fit="cover"
+                :src="`http://localhost:9090${item.img}`"
+              />
+            </template>
+          </van-cell>
+        </van-tab>
         <van-back-top bottom="20vw" />
       </van-tabs>
     </div>
@@ -227,10 +259,10 @@ const goNewsDetail = (id) => {
   }
   .content {
     padding-bottom: 70px;
-    :deep .van-cell__title {
-      font-size: 16px;
-      margin-left: 10px;
-    }
   }
+}
+:deep .van-cell__title {
+  font-size: 16px;
+  margin-left: 10px;
 }
 </style>

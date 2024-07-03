@@ -83,7 +83,7 @@ export const userGetTopicService = (id) => {
  */
 export const userGetTopicLikeService = () => {
   return request({
-    url: '/topic/user/likes/',
+    url: '/topic/user/likes',
     method: 'get'
   })
 }

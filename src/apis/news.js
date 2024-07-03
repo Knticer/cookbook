@@ -108,6 +108,6 @@ export const newsAddCommentService = (data) => {
 export const newsLikeService = (id) => {
   return request({
     url: `/topic/likes/${id}`,
-    method: 'get'
+    method: 'post'
   })
 }
