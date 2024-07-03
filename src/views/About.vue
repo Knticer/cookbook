@@ -227,6 +227,10 @@ const goNewsDetail = (id) => {
   }
   .content {
     padding-bottom: 70px;
+    :deep .van-cell__title {
+      font-size: 16px;
+      margin-left: 10px;
+    }
   }
 }
 </style>

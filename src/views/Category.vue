@@ -110,9 +110,11 @@ watchEffect(() => {
   if (type === '0') {
     getCuisineSide()
     cuisineId && getRecipesByCuisineId(cuisineId)
+    active.value = Number(cuisineId) - 1
   } else {
     getIngredientSide()
     ingredientId && getRecipesByIngredientId(ingredientId)
+    active.value = Number(ingredientId) - 1
   }
 })
 </script>
@@ -166,7 +168,7 @@ watchEffect(() => {
                 :src="`http://localhost:9090${item.img}`"
               ></van-image>
               <!-- <van-text-ellipsis :content="item.name" /> -->
-               <div>{{ item.name }}</div>
+              <div>{{ item.name }}</div>
             </van-grid-item>
           </van-grid>
           <van-back-top bottom="20vw" />
@@ -232,6 +234,10 @@ watchEffect(() => {
       height: calc(100vh - 290px);
       padding: 10px;
       overflow-y: auto;
+      :deep .van-cell__title {
+        font-size: 16px;
+        margin-left: 10px;
+      }
     }
   }
 }
