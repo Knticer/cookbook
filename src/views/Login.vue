@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:28:25
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-06-30 17:13:18
+ * @LastEditTime: 2024-07-03 16:06:12
  * @FilePath: Login.vue
  * @Description: For learning only
 -->
@@ -78,7 +78,7 @@ const onSubmit = async () => {
       >还没有账号？
       <router-link to="/register" class="register">立即注册</router-link>
     </van-divider>
-    <van-empty description="欢迎使用A216菜谱APP" />
+    <van-empty description="欢迎使用Recipe菜谱APP" />
   </div>
 </template>
 

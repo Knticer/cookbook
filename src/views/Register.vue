@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:29:08
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-06-30 17:14:34
+ * @LastEditTime: 2024-07-03 16:03:23
  * @FilePath: Register.vue
  * @Description: For learning only
 -->
@@ -18,6 +18,7 @@ const ruleForm = ref({
   username: '',
   password: '',
   gender: '',
+  taste: [],
   introduction: '',
   avatar: [],
   file: null
@@ -26,6 +27,7 @@ const rules = ref({
   username: [{ required: true, message: '请输入用户名', trigger: 'onBlur' }],
   password: [{ required: true, message: '请输入密码', trigger: 'onBlur' }],
   gender: [{ required: true, message: '请选择性别', trigger: 'onChange' }],
+  taste: [{ required: true, message: '请选择口味标签', trigger: 'onChange' }],
   introduction: [
     { required: true, message: '请输入个人简介', trigger: 'onBlur' }
   ]
@@ -39,8 +41,12 @@ const updateFile = ({ file }) => {
 const router = useRouter()
 const onSubmit = async () => {
   const params = new FormData()
-  for (const i in ruleForm.value) {
-    params.append(i, ruleForm.value[i])
+  const subForm = ref({
+    ...ruleForm.value,
+    taste: ruleForm.value.taste.join(',')
+  })
+  for (const i in subForm.value) {
+    params.append(i, subForm.value[i])
   }
   await userRegisterService(params)
   router.replace('/login')
@@ -90,6 +96,25 @@ const onSubmit = async () => {
             </template>
           </van-field>
           <van-field
+            name="checkboxGroup"
+            label="口味标签"
+            :rules="rules.taste"
+            required
+          >
+            <template #input>
+              <van-checkbox-group
+                v-model="ruleForm.taste"
+                direction="horizontal"
+              >
+                <van-checkbox name="酸" shape="square">酸</van-checkbox>
+                <van-checkbox name="甜" shape="square">甜</van-checkbox>
+                <van-checkbox name="苦" shape="square">苦</van-checkbox>
+                <van-checkbox name="辣" shape="square">辣</van-checkbox>
+                <van-checkbox name="咸" shape="square">咸</van-checkbox>
+              </van-checkbox-group>
+            </template>
+          </van-field>
+          <van-field
             v-model="ruleForm.introduction"
             rows="2"
             autosize
@@ -126,6 +151,9 @@ const onSubmit = async () => {
   height: 100vh;
   .content {
     margin-top: 10px;
+    .van-checkbox {
+      margin-bottom: 10px;
+    }
   }
 }
 </style>
