@@ -113,7 +113,7 @@ const goNewsDetail = (id) => {
           <div class="taste">
             <van-tag
               size="large"
-              v-for="item in userInfo.taste.split(',')"
+              v-for="item in userInfo.taste?.split(',')"
               :key="item"
               type="primary"
             >

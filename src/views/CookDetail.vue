@@ -34,6 +34,7 @@ const getDetail = async () => {
 const goCollect = async () => {
   !cookObj.value.favorite &&
     (await cookAddFavoriteService(cookObj.value.recipeId))
+  await getDetail()
 }
 /**
  * @description: 取消收藏
@@ -43,6 +44,7 @@ const goCollect = async () => {
 const goCancelCollect = async () => {
   cookObj.value.favorite &&
     (await cookAddFavoriteService(cookObj.value.recipeId))
+  await getDetail()
 }
 
 // 菜谱评论相关逻辑

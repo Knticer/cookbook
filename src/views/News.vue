@@ -28,14 +28,12 @@ const formRef = ref(null)
 const ruleForm = ref({
   userId: userStore.userInfo.uerId,
   title: '',
-  author: '',
   description: '',
   img: [],
   file: null
 })
 const rules = ref({
   title: [{ required: true, message: '请输入话题标题', trigger: 'onBlur' }],
-  author: [{ required: true, message: '请输入作者', trigger: 'onBlur' }],
   description: [
     { required: true, message: '请输入话题内容', trigger: 'onBlur' }
   ]
@@ -66,7 +64,6 @@ const onSubmit = async () => {
 const clearForm = () => {
   if (!token) return
   ruleForm.value.title = ''
-  ruleForm.value.author = ''
   ruleForm.value.description = ''
   ruleForm.value.img = []
   ruleForm.value.file = null
@@ -139,14 +136,6 @@ watchEffect(() => {
           label="话题标题"
           placeholder="请输入话题标题"
           :rules="rules.title"
-          required
-        />
-        <van-field
-          v-model="ruleForm.author"
-          name="作者"
-          label="作者"
-          placeholder="请输入作者"
-          :rules="rules.author"
           required
         />
         <van-field

@@ -21,10 +21,10 @@ const handelClick = async ({ target: { innerText } }) => {
   if (innerText.trim() === '关于') {
     router.push('/home')
   } else if (innerText.trim() === '退出登录') {
+    await userLogoutService()
     localStorage.removeItem('token')
     localStorage.removeItem('user')
     userStore.clearUserInfo()
-    await userLogoutService()
     router.push('/login')
   }
 }
