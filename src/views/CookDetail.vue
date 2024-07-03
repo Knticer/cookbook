@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:32:17
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-03 16:16:11
+ * @LastEditTime: 2024-07-03 17:03:06
  * @FilePath: CookDetail.vue
  * @Description: For learning only
 -->
@@ -120,6 +120,7 @@ const clearForm = () => {
       <van-image
         width="100%"
         height="200"
+        fit="cover"
         :src="`http://localhost:9090${cookObj.img}`"
       />
       <div class="detail">
