@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-07-02 21:06:30
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-02 22:42:33
+ * @LastEditTime: 2024-07-03 10:32:13
  * @FilePath: news.js
  * @Description: For learning only
  */
@@ -30,6 +30,39 @@ export const newsCurrentService = (id) => {
   return request({
     url: `/topic/get/${id}`,
     method: 'get'
+  })
+}
+
+/**
+ * @description: 添加话题
+ * @param {*} data 话题内容(formData)
+ * @return {*}
+ * @example: 例子
+ */
+export const newsAddService = (data) => {
+  return request({
+    url: '/topic/add',
+    method: 'post',
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    },
+    data
+  })
+}
+
+/**
+ * @description: 搜索话题
+ * @param {*} name 话题名
+ * @return {*}
+ * @example: 例子
+ */
+export const newsSearchService = (name) => {
+  return request({
+    url: '/topic/name',
+    method: 'get',
+    params: {
+      name
+    }
   })
 }
 
