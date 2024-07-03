@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:32:50
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-02 22:54:53
+ * @LastEditTime: 2024-07-03 16:16:42
  * @FilePath: NewsDetail.vue
  * @Description: For learning only
 -->
@@ -164,10 +164,17 @@ const clearForm = () => {
           :key="item.commentId"
           :title="item.content"
           :label="item.user.username"
-          icon="chat-o"
         >
           <template #default>
             <div>{{ dayjs(item.createTime).format('YYYY-MM-DD') }}</div>
+          </template>
+          <template #icon>
+            <van-image
+              width="15vw"
+              height="15vw"
+              fit="cover"
+              :src="`http://localhost:9090${item.user.img}`"
+            />
           </template>
         </van-cell>
       </van-cell-group>

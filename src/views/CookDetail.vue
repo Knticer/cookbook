@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:32:17
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-02 21:05:09
+ * @LastEditTime: 2024-07-03 16:16:11
  * @FilePath: CookDetail.vue
  * @Description: For learning only
 -->
@@ -210,7 +210,16 @@ const clearForm = () => {
             :title="item.user.username"
             :label="item.createTime"
             :value="item.description"
-          />
+          >
+            <template #icon>
+              <van-image
+                width="15vw"
+                height="15vw"
+                fit="cover"
+                :src="`http://localhost:9090${item.user.img}`"
+              />
+            </template>
+          </van-cell>
         </van-cell-group>
       </div>
       <van-back-top bottom="20vw" />
