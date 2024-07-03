@@ -217,7 +217,7 @@ const clearForm = () => {
                 width="15vw"
                 height="15vw"
                 fit="cover"
-                :src="`http://localhost:9090${item.user.img}`"
+                :src="`http://localhost:9090${item.user.avatar}`"
               />
             </template>
           </van-cell>
@@ -260,6 +260,10 @@ const clearForm = () => {
     }
     .comment {
       margin-top: 20px;
+      :deep .van-cell__title {
+        font-size: 16px;
+        margin-left: 10px;
+      }
     }
   }
 }
