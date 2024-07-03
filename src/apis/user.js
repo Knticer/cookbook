@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-06-27 10:35:05
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-02 22:55:59
+ * @LastEditTime: 2024-07-03 21:11:37
  * @FilePath: user.js
  * @Description: For learning only
  */
@@ -63,9 +63,27 @@ export const userGetFavoriteService = () => {
   })
 }
 
+/**
+ * @description: 获取我的话题
+ * @param {*} id 用户id
+ * @return {*}
+ * @example: 例子
+ */
 export const userGetTopicService = (id) => {
   return request({
     url: `/topic/user/${id}`,
+    method: 'get'
+  })
+}
+
+/**
+ * @description: 获取我的点赞话题
+ * @return {*}
+ * @example: 例子
+ */
+export const userGetTopicLikeService = () => {
+  return request({
+    url: '/topic/user/likes/',
     method: 'get'
   })
 }

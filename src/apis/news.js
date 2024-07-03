@@ -2,7 +2,7 @@
  * @Author: ChenXin
  * @Date: 2024-07-02 21:06:30
  * @LastEditors: ChenXin
- * @LastEditTime: 2024-07-03 10:32:13
+ * @LastEditTime: 2024-07-03 21:07:19
  * @FilePath: news.js
  * @Description: For learning only
  */
@@ -96,5 +96,18 @@ export const newsAddCommentService = (data) => {
     url: '/topic/comment/add',
     method: 'post',
     data
+  })
+}
+
+/**
+ * @description: 点赞话题
+ * @param {*} id 话题id
+ * @return {*}
+ * @example: 例子
+ */
+export const newsLikeService = (id) => {
+  return request({
+    url: `/topic/likes/${id}`,
+    method: 'get'
   })
 }
